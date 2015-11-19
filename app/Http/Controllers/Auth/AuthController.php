@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace GatherUp\Http\Controllers\Auth;
 
-use App\User;
+use GatherUp\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use GatherUp\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 

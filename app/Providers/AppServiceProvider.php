@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace GatherUp\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
