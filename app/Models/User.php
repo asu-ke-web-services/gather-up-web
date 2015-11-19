@@ -1,6 +1,6 @@
 <?php
 
-namespace GatherUp;
+namespace GatherUp\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
