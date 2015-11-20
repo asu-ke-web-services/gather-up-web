@@ -1,9 +1,16 @@
-# gather-up-web
-Web and API for Gather Up
+# Gather Up - Web
+Web and API for Gather Up: An event and sign in platform that interfaces with
+Salesforce.
 
 # Getting Started
 
-You will need a Stripe account and a Authy/Twilio account
+## Stripe and Authy
 
-Set up a plan with the ID: free-plan
+You will need a [Stripe account](https://stripe.com/) and a [Authy/Twilio account](https://www.authy.com/developers/).
+
+Update your `.env` file your Stripe API keys and your Authy/Twilio key.
+
+Set up Stripe plans with the following IDs:
+
+* free-plan
 
