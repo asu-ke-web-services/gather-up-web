@@ -26,13 +26,15 @@ class TeamPolicy
         Validator::extend('canMakeTeam', 'GatherUp\Policies\TeamPolicy@canMakeTeam', self::ERROR_MESSAGE);
     }
 
-    public function validateNewTeamsWith() {
+    public function validateNewTeamsWith()
+    {
         return [
             'name' => 'canMakeTeam'
         ];
     }
 
-    public function canMakeTeam($attribute, $userId, $parameters, $validator) {
+    public function canMakeTeam($attribute, $userId, $parameters, $validator)
+    {
         $user = User::findOrFail(Auth::id());
         $numberOfTeams = $user->getNumberOfTeams();
 
@@ -44,7 +46,8 @@ class TeamPolicy
         return false;
     }
 
-    private function hasLessTeamsThanTheMaximum($planType, $numberOfTeams) {
+    private function hasLessTeamsThanTheMaximum($planType, $numberOfTeams)
+    {
         switch($planType) {
             case config('services.stripe.plans.basic_monthly_plan_id'):
                 return $numberOfTeams < self::BASIC_TEAMS;
