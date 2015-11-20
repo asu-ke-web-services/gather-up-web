@@ -18,7 +18,7 @@ class User extends Model implements AuthorizableContract,
                                     CanResetPasswordContract,
                                     TwoFactorAuthenticatableContract
 {
-    use Authorizable, Billable, CanResetPassword, TwoFactorAuthenticatable;
+    use Authorizable, Billable, CanJoinTeams, CanResetPassword, TwoFactorAuthenticatable;
 
     /**
      * The database table used by the model.
@@ -63,4 +63,16 @@ class User extends Model implements AuthorizableContract,
     protected $dates = [
         'trial_ends_at', 'subscription_ends_at',
     ];
+
+    public function getNumberOfTeams() {
+        return Team::where('owner_id', $this->id)->count();
+    }
+
+    public function getPlanType() {
+        return $this->stripe_plan;
+    }
+
+    public function planIsActive() {
+        return $this->stripe_active === '1' ? true : false;
+    }
 }

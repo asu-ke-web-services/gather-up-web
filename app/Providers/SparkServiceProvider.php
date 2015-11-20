@@ -2,7 +2,8 @@
 
 namespace GatherUp\Providers;
 
-use GatherUp\Team;
+use GatherUp\Models\Team;
+use GatherUp\Policies\TeamPolicy;
 use Validator;
 use Laravel\Spark\Spark;
 use Illuminate\Http\Request;
@@ -47,6 +48,11 @@ class SparkServiceProvider extends ServiceProvider
                 'teams' => Team::class,
             ]
         ]);
+
+        Spark::validateNewTeamsWith(function() {
+            return (new TeamPolicy())->validateNewTeamsWith();
+        });
+
     }
 
     /**
@@ -146,30 +152,30 @@ class SparkServiceProvider extends ServiceProvider
     protected function customizeSubscriptionPlans()
     {
         // Monthly plans
-        Spark::free()
+        Spark::free('Individual')
             ->features([
-                'Web Signups',
-                '2 events per month',
+                'Web forms',
+                '5 events per month',
                 'Unlimited sign ups',
                 'Salesforce integration',
             ]);
 
-        Spark::plan('Basic', 'todo-stripe-plan-id')->price(100)
+        Spark::plan('Basic', config('services.stripe.plans.basic_monthly_plan_id'))->price(100)
             ->features([
-                'Android, iOS, and Web Signups',
+                'Android, iOS, and Web forms',
                 'Unlimited events',
                 'Unlimited sign ups',
                 'Salesforce integration',
-                'Single department',
+                'Single team',
             ]);
 
         Spark::plan('Premium', 'todo-stripe-plan-id')->price(500)
             ->features([
-                'Android, iOS, and Web Signups',
+                'Android, iOS, and Web forms',
                 'Unlimited events',
                 'Unlimited sign ups',
                 'Salesforce integration',
-                'Multiple departments',
+                'Multiple teams',
                 'Theme customization',
             ]);
 
@@ -177,7 +183,7 @@ class SparkServiceProvider extends ServiceProvider
         Spark::plan('Basic', 'todo-stripe-plan-id')->price(12 * 80)
             ->yearly()
             ->features([
-                'Android, iOS, and Web Signups',
+                'Android, iOS, and Web forms',
                 'Unlimited events',
                 'Unlimited sign ups',
                 'Salesforce integration',
@@ -187,7 +193,7 @@ class SparkServiceProvider extends ServiceProvider
         Spark::plan('Premium', 'todo-stripe-plan-id')->price(12 * 400)
             ->yearly()
             ->features([
-                'Android, iOS, and Web Signups',
+                'Android, iOS, and Web forms',
                 'Unlimited events',
                 'Unlimited sign ups',
                 'Salesforce integration',
