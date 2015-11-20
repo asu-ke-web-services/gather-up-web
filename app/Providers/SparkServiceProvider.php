@@ -49,10 +49,10 @@ class SparkServiceProvider extends ServiceProvider
             ]
         ]);
 
+        // Make sure users can make teams
         Spark::validateNewTeamsWith(function() {
             return (new TeamPolicy())->validateNewTeamsWith();
         });
-
     }
 
     /**
