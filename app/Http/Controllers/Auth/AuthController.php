@@ -2,7 +2,7 @@
 
 namespace GatherUp\Http\Controllers\Auth;
 
-use GatherUp\User;
+use GatherUp\Models\User;
 use Validator;
 use GatherUp\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;

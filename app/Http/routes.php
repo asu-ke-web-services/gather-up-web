@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('spark::welcome');
 });
+
+Route::get('home', ['middleware' => 'auth', function () {
+	return view('home');
+}]);
