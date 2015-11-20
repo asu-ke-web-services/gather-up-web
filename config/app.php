@@ -144,7 +144,13 @@ return [
         GatherUp\Providers\AuthServiceProvider::class,
         GatherUp\Providers\EventServiceProvider::class,
         GatherUp\Providers\RouteServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
+        /**
+         * Spark Service Providers...
+         */
+        Laravel\Spark\Providers\SparkServiceProvider::class,
+        GatherUp\Providers\SparkServiceProvider::class,
     ],
 
     /*

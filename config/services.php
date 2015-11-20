@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model'  => GatherUp\User::class,
+        'model'  => GatherUp\Models\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
