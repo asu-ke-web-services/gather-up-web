@@ -17,7 +17,7 @@ php:
   - hhvm
 
 before_script:
-  - mv travis.env.php .env.testing.php
+  - mv .env.travis .env
   - mysql -e 'create database gatherup;'
   - composer self-update
   - composer install --prefer-source --no-interaction
