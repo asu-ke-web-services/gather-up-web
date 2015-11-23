@@ -33,6 +33,9 @@ return [
         'model'  => GatherUp\Models\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'plans'  => [
+            'basic_monthly_plan_id' => env('STRIPE_BASIC_MONTHLY_PLAN_ID'),
+        ]
     ],
 
 ];
