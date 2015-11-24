@@ -4,8 +4,8 @@ namespace GatherUp\Http\Controllers\Api\VersionOne;
 
 use Validator;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
+use GatherUp\Exceptions\JsonException;
 use GatherUp\Http\Controllers\Controller;
 
 class JsonController extends Controller
@@ -27,7 +27,7 @@ class JsonController extends Controller
      */
     protected function createGateUnauthorizedException($ability, $arguments, $message = 'This action is unauthorized.', $previousException = null)
     {
-        return new HttpException(
+        return new JsonException(
             403,
             json_encode(['error' => ['authorization' => $message]]),
             $previousException

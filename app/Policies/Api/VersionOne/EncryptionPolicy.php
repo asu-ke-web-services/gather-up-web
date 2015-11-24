@@ -35,4 +35,15 @@ class EncryptionPolicy
     public function privateKey() {
         return false;
     }
+
+    /**
+     * @override
+     */
+    protected function deny($message = 'This action is unauthorized.')
+    {
+        var_dump( 'stahp' );
+        return false;
+    }
+
+
 }
