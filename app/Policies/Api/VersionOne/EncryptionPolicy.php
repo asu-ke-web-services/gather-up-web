@@ -2,6 +2,9 @@
 
 namespace GatherUp\Policies\Api\VersionOne;
 
+use GatherUp\Models\TeamKey;
+use GatherUp\Models\User;
+
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EncryptionPolicy
@@ -19,12 +22,17 @@ class EncryptionPolicy
     }
 
     /**
-     * The given AuthToken has access to the given TeamKey if the $token's
-     * team_id is the $teamKey's team_id and neither one is deactivated.
-     * 
-     * It then must also 
+     * At this point, if we have a team key, then they have
+     * access to the public key of that team
      */
-    public function publicKey(TeamKey $teamKey) {
-        return $teamKey !== null;
+    public function publicKey(User $user, TeamKey $teamKey) {
+        return $user !== null && $teamKey !== null;
+    }
+
+    /**
+     * No one ever has access to the private key
+     */
+    public function privateKey() {
+        return false;
     }
 }

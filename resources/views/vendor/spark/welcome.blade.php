@@ -203,7 +203,8 @@
                     $columns = 'col-md-3';
                     break;
                 default:
-                    throw new Exception("Unsupported number of plans. Please customize view.");
+                    $columns = 'col-md-3';
+                    //throw new Exception("Unsupported number of plans. Please customize view. " . count($plans) );
             }
         ?>
 

@@ -12,4 +12,20 @@ class TeamKey extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    /**
+     * Check for the existances of a AuthToken->Team->TeamKey
+     * relationship between an active public key for the team
+     * and a given $token
+     */
+    public function scopeAuthToken($query, $token)
+    {
+        return $query->whereHas('team', function ($query) use ($token)
+        {
+            $query->whereHas('authTokens', function ($innerQuery) use ($token)
+            {
+                $innerQuery->whereToken($token);
+            });
+        });
+    }
 }

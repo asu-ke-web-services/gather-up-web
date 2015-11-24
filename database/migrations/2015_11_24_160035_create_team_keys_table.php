@@ -14,8 +14,8 @@ class CreateTeamKeysTable extends Migration
     {
         Schema::create('team_keys', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('public_key', 1024);
-            $table->string('private_key', 1024);
+            $table->string('public_key', 2024);
+            $table->string('private_key', 2024);
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('teams');
             $table->softDeletes();
