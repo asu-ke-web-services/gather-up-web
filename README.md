@@ -1,4 +1,7 @@
 # Gather Up - Web
+
+[![Build Status](https://travis-ci.org/gios-asu/gather-up-web.svg)](https://travis-ci.org/gios-asu/gather-up-web)
+
 Web and API for Gather Up: An event and sign in platform that interfaces with
 Salesforce.
 

@@ -1,0 +1,38 @@
+language: php
+
+services:
+  - mysql
+
+sudo: false
+
+cache: 
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+php:
+  - 5.5
+  - 5.6
+  # - 5.7
+  - hhvm
+
+before_script:
+  - mv .env.travis .env
+  - mysql -e 'create database gatherup;'
+  - composer self-update
+  - composer install --prefer-source --no-interaction
+  - chmod -R 777 storage
+  - php artisan migrate:install --env=testing --no-interaction -vvv
+
+script: 
+  - php artisan migrate --env=testing --no-interaction -vvv
+  - php artisan db:seed --env=testing --no-interaction -vvv
+  - phpunit
+  - php artisan migrate:rollback --env=testing --no-interaction -vvv
+
+# allow_failures: Allow this build to fail under the specified environments.
+# fast_finish: If your build fails do not continue trying to build, just stop.
+matrix:
+  allow_failures:
+    - php: hhvm
+  fast_finish: true
