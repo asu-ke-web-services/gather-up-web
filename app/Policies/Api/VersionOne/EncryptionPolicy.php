@@ -22,8 +22,8 @@ class EncryptionPolicy
     }
 
     /**
-     * At this point, if we have a team key, then they have
-     * access to the public key of that team
+     * One a user on the given team for the given team key
+     * should be able to see the public key
      */
     public function publicKey(User $user, TeamKey $teamKey) {
         return $user !== null && $teamKey !== null;
