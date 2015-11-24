@@ -45,7 +45,8 @@ class EncryptionControllerTest extends TestCase
         $this->get('/api/v1/public_key?token='. $this->authToken->token)
              ->seeJson([
                  'public_key' => $this->teamKey->public_key
-             ]);
+             ])
+             ->seeStatusCode(200);
     }
 
     public function testCannotAccessPublicKey()
@@ -54,6 +55,7 @@ class EncryptionControllerTest extends TestCase
         $this->get('/api/v1/public_key?token=someinvalidkey')
             ->seeJson([
                 'authorization' => 'This action is unauthorized.'
-            ]);
+            ])
+            ->seeStatusCode(403);
     }
 }
