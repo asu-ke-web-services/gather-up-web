@@ -5,8 +5,10 @@ namespace GatherUp\Http\Controllers\Api\VersionOne;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
-use GatherUp\Models\User;
+
+use GatherUp\Models\Event;
 use GatherUp\Models\TeamKey;
+use GatherUp\Models\User;
 use GatherUp\Commands\Api\VersionOne\StoreSignUpCommand;
 
 class SignUpController extends JsonController
@@ -16,6 +18,7 @@ class SignUpController extends JsonController
     public function __construct(GateContract $gate)
     {
         $gate->define('publicKey', 'GatherUp\Policies\Api\VersionOne\TeamKeyPolicy@publicKey');
+        $gate->define('event', 'GatherUp\Policies\Api\VersionOne\EventPolicy@event');
     }
 
     public function store(Request $request) {
@@ -27,9 +30,12 @@ class SignUpController extends JsonController
 
         $user = User::authToken($request->token)->first();
         $teamKey = TeamKey::authToken($request->token)->first();
+        $event = Event::find($request->event_id);
 
         // Verify that the given user has access to the public key
         $this->authorizeForUser($user, 'publicKey', $teamKey);
+        // Verify the given user has access to the team event combo
+        $this->authorizeForUser($user, 'event', [ $event, $teamKey ]);
 
         $successfullyDecrypted = $this->dispatch(
             new StoreSignUpCommand(
