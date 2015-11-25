@@ -16,10 +16,18 @@ class SignUpControllerTest extends TestCase
     private $teamKey;
     private $event;
     private $anotherUsersEvent;
+    private $signUpMessage;
 
     public function setUp()
     {
         parent::setUp();
+
+        $this->signUpMessage = '{
+            "first_name": "Ivan",
+            "last_name": "M",
+            "email": "test@test.com",
+            "birth_date": "2015-11-25"
+        }';
     }
 
     /*
@@ -97,9 +105,8 @@ class SignUpControllerTest extends TestCase
 
         $rsa = new RsaEncryption();
         $publicKey = $this->teamKey->public_key;
-        $message = '{ "sign": "up" }';
 
-        $cipherSignUp = $rsa->encryptMessage($message, $publicKey);
+        $cipherSignUp = $rsa->encryptMessage($this->signUpMessage, $publicKey);
 
         $response = $this->post('/api/v1/sign_up', [
             'token' => 'test',
@@ -130,9 +137,8 @@ class SignUpControllerTest extends TestCase
 
         $rsa = new RsaEncryption();
         $publicKey = $this->teamKey->public_key;
-        $message = '{ "sign": "up" }';
 
-        $cipherSignUp = $rsa->encryptMessage($message, $publicKey);
+        $cipherSignUp = $rsa->encryptMessage($this->signUpMessage, $publicKey);
 
         $response = $this->post('/api/v1/sign_up', [
             'token' => 'test',

@@ -35,5 +35,7 @@ class EventPolicy
 
             return $teamKeyTeam->id === $eventTeam->id;
         }
+
+        return false;
     }
 }

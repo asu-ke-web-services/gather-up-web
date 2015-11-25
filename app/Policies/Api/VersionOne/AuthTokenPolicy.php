@@ -2,12 +2,11 @@
 
 namespace GatherUp\Policies\Api\VersionOne;
 
-use GatherUp\Models\TeamKey;
 use GatherUp\Models\User;
-
+use GatherUp\Models\Team;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TeamKeyPolicy
+class AuthTokenPolicy
 {
     use HandlesAuthorization;
 
@@ -21,12 +20,8 @@ class TeamKeyPolicy
         //
     }
 
-    /**
-     * One a user on the given team for the given team key
-     * should be able to see the public key
-     */
-    public function publicKey(User $user, TeamKey $teamKey)
+    public function token(User $user, Team $team)
     {
-        return $user !== null && $teamKey !== null;
+        return $user->belongsToTeam($team);
     }
 }

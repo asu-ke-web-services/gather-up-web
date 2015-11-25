@@ -81,6 +81,11 @@ class User extends Model implements AuthorizableContract,
         return $this->stripe_active === '1' ? true : false;
     }
 
+    public function belongsToTeam(Team $team)
+    {
+        return $this->teams->contains($team->id);
+    }
+
     public function authTokens()
     {
         return $this->hasMany(AuthToken::class);

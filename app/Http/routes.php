@@ -36,11 +36,12 @@ Route::group(['namespace' => 'Api', 'prefix' => 'api'], function ()
     {
         Route::get('/', 'DocumentationController@get');
 
-        Route::post('token', 'AuthenticationController@getToken');
-        Route::delete('token', 'AuthenticationController@destroyToken');
+        Route::post('sign_in', 'AuthenticationController@getToken');
+        Route::post('sign_out', 'AuthenticationController@destroyToken');
 
         Route::get('public_key', 'EncryptionController@getPublicKey');
-        Route::delete('public_key', 'EncryptionController@destroyPublicKey');
+
+        Route::post('event', 'EventController@store');
 
         Route::post('sign_up', 'SignUpController@store');
     });
