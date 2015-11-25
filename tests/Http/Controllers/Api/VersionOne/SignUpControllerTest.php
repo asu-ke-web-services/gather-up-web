@@ -14,6 +14,7 @@ class SignUpControllerTest extends TestCase
     private $authToken;
     private $team;
     private $teamKey;
+    private $event;
 
     public function setUp()
     {
@@ -39,6 +40,10 @@ class SignUpControllerTest extends TestCase
             'team_id' => $this->team->id,
             'token' => 'test',
         ]);
+        $this->event = factory(GatherUp\Models\Event::class)->create([
+            'user_id' => $this->user->id,
+            'team_id' => $this->team->id,
+        ]);
     }
 
     public function testCanStoreSignUp()
@@ -53,6 +58,7 @@ class SignUpControllerTest extends TestCase
 
         $response = $this->post('/api/v1/sign_up', [
             'token' => 'test',
+            'event_id' => $this->event->id,
             'cipher_sign_up' => $cipherSignUp,
         ])->seeJson([
             'success' => true
@@ -67,6 +73,7 @@ class SignUpControllerTest extends TestCase
 
         $response = $this->post('/api/v1/sign_up', [
             'token' => 'test',
+            'event_id' => $this->event->id,
             'cipher_sign_up' => 'bad text',
         ])->seeJson([
             'success' => false

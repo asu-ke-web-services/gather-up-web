@@ -9,6 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 class StoreSignUpCommand extends Command implements SelfHandling
 {
+    private $eventId;
     private $cipherText;
     private $privateKey;
 
@@ -17,8 +18,9 @@ class StoreSignUpCommand extends Command implements SelfHandling
      *
      * @return void
      */
-    public function __construct($cipherText, $privateKey)
+    public function __construct($eventId, $cipherText, $privateKey)
     {
+        $this->eventId = $eventId;
         $this->cipherText = $cipherText;
         $this->privateKey = $privateKey;
     }

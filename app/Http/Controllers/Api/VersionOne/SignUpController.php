@@ -21,6 +21,7 @@ class SignUpController extends JsonController
     public function store(Request $request) {
         $this->validate($request, [
             'token' => 'required',
+            'event_id' => 'required|integer',
             'cipher_sign_up' => 'required',
         ]);
 
@@ -32,6 +33,7 @@ class SignUpController extends JsonController
 
         $successfullyDecrypted = $this->dispatch(
             new StoreSignUpCommand(
+                $request->event_id,
                 $request->cipher_sign_up,
                 $teamKey->private_key
             )

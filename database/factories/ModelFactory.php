@@ -25,14 +25,14 @@ $factory->define(GatherUp\Models\User::class, function (Faker\Generator $faker)
 $factory->define(GatherUp\Models\Team::class, function(Faker\Generator $faker)
 {
     return [
-        'name' => $faker->name
+        'name' => $faker->name,
     ];
 });
 
 $factory->define(GatherUp\Models\AuthToken::class, function(Faker\Generator $faker)
 {
     return [
-        'token' => uniqid()
+        'token' => uniqid(),
     ];
 });
 
@@ -43,6 +43,15 @@ $factory->define(GatherUp\Models\TeamKey::class, function(Faker\Generator $faker
 
     return [
         'public_key' => $keys->publicKey,
-        'private_key' => $keys->privateKey
+        'private_key' => $keys->privateKey,
+    ];
+});
+
+$factory->define(GatherUp\Models\Event::class, function(Faker\Generator $faker)
+{
+    return [
+        'title' => $faker->sentence(),
+        'started_at' => $faker->dateTime(),
+        'notes' => $faker->realText(),
     ];
 });
