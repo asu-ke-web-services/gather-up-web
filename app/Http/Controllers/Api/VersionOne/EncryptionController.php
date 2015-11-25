@@ -12,13 +12,13 @@ class EncryptionController extends JsonController
 {
     public function __construct(GateContract $gate)
     {
-        $gate->define('publicKey', 'GatherUp\Policies\Api\VersionOne\EncryptionPolicy@publicKey');
+        $gate->define('publicKey', 'GatherUp\Policies\Api\VersionOne\TeamKeyPolicy@publicKey');
     }
 
     public function getPublicKey(Request $request)
     {
         $this->validate($request, [
-            'token' => 'required'
+            'token' => 'required',
         ]);
 
         $user = User::authToken($request->token)->first();

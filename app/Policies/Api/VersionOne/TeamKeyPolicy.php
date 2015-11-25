@@ -7,7 +7,7 @@ use GatherUp\Models\User;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class EncryptionPolicy
+class TeamKeyPolicy
 {
     use HandlesAuthorization;
 
@@ -28,22 +28,4 @@ class EncryptionPolicy
     public function publicKey(User $user, TeamKey $teamKey) {
         return $user !== null && $teamKey !== null;
     }
-
-    /**
-     * No one ever has access to the private key
-     */
-    public function privateKey() {
-        return false;
-    }
-
-    /**
-     * @override
-     */
-    protected function deny($message = 'This action is unauthorized.')
-    {
-        var_dump( 'stahp' );
-        return false;
-    }
-
-
 }

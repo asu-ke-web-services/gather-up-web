@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-	return view('spark::welcome');
+    return view('spark::welcome');
 });
 
 Route::get('home', ['middleware' => 'auth', function () {
-	return view('home');
+    return view('home');
 }]);
 
 
@@ -32,14 +32,16 @@ Route::get('home', ['middleware' => 'auth', function () {
 */
 Route::group(['namespace' => 'Api', 'prefix' => 'api'], function ()
 {
-	Route::group(['namespace' => 'VersionOne', 'prefix' => 'v1'], function()
-	{
-		Route::get('/', 'DocumentationController@get');
+    Route::group(['namespace' => 'VersionOne', 'prefix' => 'v1'], function()
+    {
+        Route::get('/', 'DocumentationController@get');
+
+        Route::post('token', 'AuthenticationController@getToken');
+        Route::delete('token', 'AuthenticationController@destroyToken');
 
         Route::get('public_key', 'EncryptionController@getPublicKey');
         Route::delete('public_key', 'EncryptionController@destroyPublicKey');
 
         Route::post('sign_up', 'SignUpController@store');
-        Route::delete('sign_up', 'SignUpController@destroy');
-	});
+    });
 });
