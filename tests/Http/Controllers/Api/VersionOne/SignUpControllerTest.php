@@ -15,11 +15,22 @@ class SignUpControllerTest extends TestCase
     private $team;
     private $teamKey;
     private $event;
+    private $anotherUsersEvent;
 
     public function setUp()
     {
         parent::setUp();
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Data
+    |--------------------------------------------------------------------------
+    |
+    | These functions are called by transaction wrapped tests
+    | that will insert data into the database when needed
+    |
+    */
 
     public function insertRecords()
     {
@@ -46,6 +57,40 @@ class SignUpControllerTest extends TestCase
         ]);
     }
 
+    public function insertAnotherUsersEvent()
+    {
+        $user = factory(GatherUp\Models\User::class)->create([
+            'name' => str_random(10),
+            'email' => str_random(10).'@gmail.com',
+            'password' => 'secret',
+        ]);
+        $team = factory(GatherUp\Models\Team::class)->create([
+            'name' => str_random(10),
+            'owner_id' => $user->id,
+        ]);
+        $teamKey = factory(GatherUp\Models\TeamKey::class)->create([
+            'team_id' => $team->id,
+        ]);
+        $authToken = factory(GatherUp\Models\AuthToken::class)->create([
+            'user_id' => $user->id,
+            'team_id' => $team->id,
+            'token' => 'different token',
+        ]);
+        $this->anotherUsersEvent = factory(GatherUp\Models\Event::class)->create([
+            'user_id' => $user->id,
+            'team_id' => $team->id,
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Actual Tests
+    |--------------------------------------------------------------------------
+    |
+    | Tests may insert records
+    |
+    */
+
     public function testCanStoreSignUp()
     {
         $this->insertRecords();
@@ -63,8 +108,6 @@ class SignUpControllerTest extends TestCase
         ])->seeJson([
             'success' => true
         ])->seeStatusCode(200);
-
-        // TODO check to make sure the data is in the database
     }
 
     public function testCannotStoreSignUpBecauseOfBadRequest()
@@ -78,5 +121,25 @@ class SignUpControllerTest extends TestCase
         ])->seeJson([
             'success' => false
         ])->seeStatusCode(400);
+    }
+
+    public function testCannotStoreSignUpBecauseUnauthorizedEvent()
+    {
+        $this->insertRecords();
+        $this->insertAnotherUsersEvent();
+
+        $rsa = new RsaEncryption();
+        $publicKey = $this->teamKey->public_key;
+        $message = '{ "sign": "up" }';
+
+        $cipherSignUp = $rsa->encryptMessage($message, $publicKey);
+
+        $response = $this->post('/api/v1/sign_up', [
+            'token' => 'test',
+            'event_id' => $this->anotherUsersEvent->id,
+            'cipher_sign_up' => $cipherSignUp,
+        ])->seeJson([
+            'authorization' => 'This action is unauthorized.'
+        ])->seeStatusCode(403);
     }
 }
