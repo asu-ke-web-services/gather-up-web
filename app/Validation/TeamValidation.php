@@ -1,13 +1,13 @@
 <?php
 
-namespace GatherUp\Policies;
+namespace GatherUp\Validation;
 
 use Auth;
 use Validator;
 use GatherUp\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TeamPolicy
+class TeamValidation
 {
     use HandlesAuthorization;
 
@@ -23,7 +23,7 @@ class TeamPolicy
      */
     public function __construct()
     {
-        Validator::extend('canMakeTeam', 'GatherUp\Policies\TeamPolicy@canMakeTeam', self::ERROR_MESSAGE);
+        Validator::extend('canMakeTeam', 'GatherUp\Policies\TeamValidation@canMakeTeam', self::ERROR_MESSAGE);
     }
 
     /**

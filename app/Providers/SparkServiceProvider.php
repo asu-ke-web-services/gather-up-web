@@ -3,7 +3,7 @@
 namespace GatherUp\Providers;
 
 use GatherUp\Models\Team;
-use GatherUp\Policies\TeamPolicy;
+use GatherUp\Validation\TeamValidation;
 use Validator;
 use Laravel\Spark\Spark;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class SparkServiceProvider extends ServiceProvider
 
         // Make sure users can make teams
         Spark::validateNewTeamsWith(function() {
-            return (new TeamPolicy())->validateNewTeamsWith();
+            return (new TeamValidation())->validateNewTeamsWith();
         });
     }
 

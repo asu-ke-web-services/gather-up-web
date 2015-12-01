@@ -2,6 +2,8 @@
 
 namespace GatherUp\Models;
 
+use GatherUp\Models\AuthToken;
+
 use Laravel\Cashier\Billable;
 use Laravel\Spark\Teams\CanJoinTeams;
 use Illuminate\Database\Eloquent\Model;
@@ -64,15 +66,36 @@ class User extends Model implements AuthorizableContract,
         'trial_ends_at', 'subscription_ends_at',
     ];
 
-    public function getNumberOfTeams() {
+    public function getNumberOfTeams()
+    {
         return Team::where('owner_id', $this->id)->count();
     }
 
-    public function getPlanType() {
+    public function getPlanType()
+    {
         return $this->stripe_plan;
     }
 
-    public function planIsActive() {
+    public function planIsActive()
+    {
         return $this->stripe_active === '1' ? true : false;
+    }
+
+    public function belongsToTeam(Team $team)
+    {
+        return $this->teams->contains($team->id);
+    }
+
+    public function authTokens()
+    {
+        return $this->hasMany(AuthToken::class);
+    }
+
+    public function scopeAuthToken($query, $token)
+    {
+        return $query->whereHas('authTokens', function ($query) use ($token)
+        {
+            $query->whereToken($token);
+        });
     }
 }
