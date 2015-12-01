@@ -46,7 +46,9 @@ class DocumentationController extends Controller
                 'method' => 'POST',
                 'arguments' => [
                     'token' => 'String',
-                    ''
+                    'title' => 'String',
+                    'notes' => 'String[Optional]',
+                    'stated_at' => 'DateTime',
                 ],
                 'returns' => [
                     'event_id' => 'Integer',

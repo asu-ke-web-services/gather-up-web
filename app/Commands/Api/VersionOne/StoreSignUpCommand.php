@@ -51,10 +51,7 @@ class StoreSignUpCommand extends Command implements SelfHandling
 
             // Store it
             $signUp = SignUp::create([
-                'first_name' => $json->first_name,
-                'last_name' => $json->last_name,
-                'email' => $json->email,
-                'birth_date' => $json->birth_date,
+                'answer_blob' => json_encode($json),
                 'event_id' => $this->eventId,
             ]);
 

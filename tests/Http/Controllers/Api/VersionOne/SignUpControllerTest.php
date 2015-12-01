@@ -117,6 +117,9 @@ class SignUpControllerTest extends TestCase
         ])->seeStatusCode(200);
     }
 
+    /**
+     * Test that the call fails because of a malformed cipher payload
+     */
     public function testCannotStoreSignUpBecauseOfBadRequest()
     {
         $this->insertRecords();
@@ -130,6 +133,10 @@ class SignUpControllerTest extends TestCase
         ])->seeStatusCode(400);
     }
 
+    /**
+     * Test that the call fails because the user is unauthorized to
+     * add a sign up to an event that their given token is not for
+     */
     public function testCannotStoreSignUpBecauseUnauthorizedEvent()
     {
         $this->insertRecords();
