@@ -47,13 +47,11 @@ class SignUpController extends JsonController
 
         if ($successfullyDecrypted)
         {
-            return response()->json(['success' => true]);    
+            return response()->json(['success' => true]);
         }
         else
         {
             return response()->json(['success' => false], 400);    
         }
-
-        
     }
 }

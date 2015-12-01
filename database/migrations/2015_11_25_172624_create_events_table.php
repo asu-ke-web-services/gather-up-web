@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('title', 512);
             $table->text('notes')->nullable();
-            $table->dateTime('started_at');
+            $table->dateTime('started_at')->nullable();
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('teams');
             $table->integer('user_id')->unsigned();

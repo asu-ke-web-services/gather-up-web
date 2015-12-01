@@ -48,7 +48,7 @@ class DocumentationController extends Controller
                     'token' => 'String',
                     'title' => 'String',
                     'notes' => 'String[Optional]',
-                    'stated_at' => 'DateTime',
+                    'started_at' => 'DateTime[Optional]',
                 ],
                 'returns' => [
                     'event_id' => 'Integer',
